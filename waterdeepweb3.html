@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fantasy Map</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-search@3.0.2/dist/leaflet-search.min.css" />
+
+  <style>
+    #map {
+      height: 725px;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-search@3.0.2/dist/leaflet-search.min.js"></script>
+  <script>
+    var myMap = L.map('map', {
+      crs: L.CRS.Simple,
+      minZoom: -5,
+      maxZoom: 3,
+      zoomSnap: 0.5,
+      zoomDelta: 0.5,
+      wheelPxPerZoomLevel: 80
+    });
+
+    var imageBounds = [[0,0], [7256,3560]];
+    var imageUrl = 'https://www.aidedd.org/atlas/images/waterdeep-3560-7256.jpg';
+    var fantasyMap = L.imageOverlay(imageUrl, imageBounds);
+
+    fantasyMap.addTo(myMap);
+    myMap.fitBounds(imageBounds);
+
+
+var customMarkerIcon = L.icon({
+      iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Google_Map_Marker.svg',
+      iconSize: [16, 16],
+      iconAnchor: [8.5, 8.5]
+    });
+
+	var markersLayer = new L.LayerGroup();
+	myMap.addLayer(markersLayer);
+
+	var data = [
+	{"loc": [559,765], "title": "marker1","popup": '<p>Hello world!<br />This is a nice popup.</p>'},
+	{"loc": [102,1009], "title": "marker2","popup": '<p>Marker2<br />Electric boogaloo</p>'}	
+	];
+	
+	
+	
+	for (i in data){
+		var title = data[i].title;
+		var loc = data[i].loc;
+		var popup = data[i].popup;
+		
+		var marker = new L.marker(new L.latLng(loc), {title: title,icon:customMarkerIcon}); 
+		marker.bindPopup(popup);
+		markersLayer.addLayer(marker);
+    };
+	
+	
+	var searchControl = new L.Control.Search({
+    layer: markersLayer,
+    marker: false,
+    textPlaceholder: 'Search for a marker'
+    });
+
+    myMap.addControl(searchControl);
+  </script>
+</body>
+</html>
