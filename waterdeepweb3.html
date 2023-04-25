@@ -33,30 +33,32 @@
 
     fantasyMap.addTo(myMap);
     myMap.fitBounds(imageBounds);
-
+	
+	var default_icon_size = [16, 16]
+	var default_icon_anchor = [(default_icon_size[0]+1)/2, (default_icon_size[1]+1)/2]
 
 var houseMarker = L.icon({
       iconUrl: 'https://www.pinclipart.com/picdir/big/564-5647199_transparent-home-icon-clipart-circle-transparent-home-icon.png',
-      iconSize: [16, 16],
-      iconAnchor: [8.5, 8.5]
+      iconSize: default_icon_size,
+      iconAnchor: default_icon_anchor
     });
 
 var templeMarker = L.icon({
       iconUrl: 'https://www.tasteofthailand.org/wp-content/uploads/2020/08/temple-2.png',
-      iconSize: [16, 16],
-      iconAnchor: [8, 8]
+      iconSize: default_icon_size,
+      iconAnchor: default_icon_anchor
     });
 	
 var tavernMarker = L.icon({
       iconUrl: 'https://coffeewebdesign.com/wp-content/uploads/2014/10/logo-coffee.png',
-      iconSize: [16, 16],
-      iconAnchor: [8, 8]
+      iconSize: default_icon_size,
+      iconAnchor: default_icon_anchor
     });
 
 var factionMarker = L.icon({
       iconUrl: 'https://pluspng.com/img-png/viper-png-image-viper-symbol-png-warhammer-40-000-wiki-fandom-powered-by-wikia-840.png',
-      iconSize: [16, 16],
-      iconAnchor: [8, 8]
+      iconSize: default_icon_size,
+      iconAnchor: default_icon_anchor
     });
 	  
 	var markersLayer = new L.LayerGroup();
@@ -93,6 +95,24 @@ var factionMarker = L.icon({
         e.layer.openPopup();
 		});
     
+	
+	myMap.setZoom(myMap.options.minZoom);
+	myMap.on('zoomend', function() {
+		
+		var currentZoom = myMap.getZoom();
+
+		var factor = (currentZoom - myMap.options.minZoom)*0.5 + 1
+		
+		markersLayer.eachLayer(function(layer) {
+			var iconOptions = layer.options.icon.options;
+			var newIcon = L.icon({
+				iconUrl: iconOptions.iconUrl,
+				iconSize: [default_icon_size[0]*factor,default_icon_size[1]*factor],
+				iconAnchor: [default_icon_anchor[0]*factor,default_icon_anchor[1]*factor]
+			});
+			layer.setIcon(newIcon);
+		});
+	}); 
 	
   </script>
 </body>
