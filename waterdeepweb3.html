@@ -35,18 +35,33 @@
     myMap.fitBounds(imageBounds);
 
 
-var customMarkerIcon = L.icon({
-      iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/de/Google_Map_Marker.svg',
+var houseMarker = L.icon({
+      iconUrl: 'https://www.pinclipart.com/picdir/big/564-5647199_transparent-home-icon-clipart-circle-transparent-home-icon.png',
       iconSize: [16, 16],
       iconAnchor: [8.5, 8.5]
+    });
+
+var templeMarker = L.icon({
+      iconUrl: 'https://www.tasteofthailand.org/wp-content/uploads/2020/08/temple-2.png',
+      iconSize: [16, 16],
+      iconAnchor: [8, 8]
+    });
+	
+var tavernMarker = L.icon({
+      iconUrl: 'https://coffeewebdesign.com/wp-content/uploads/2014/10/logo-coffee.png',
+      iconSize: [16, 16],
+      iconAnchor: [8, 8]
     });
 
 	var markersLayer = new L.LayerGroup();
 	myMap.addLayer(markersLayer);
 
 	var data = [
-	{"loc": [559,765], "title": "marker1","popup": '<p>Hello world!<br />This is a nice popup.</p>'},
-	{"loc": [102,1009], "title": "marker2","popup": '<p>Marker2<br />Electric boogaloo</p>'}	
+	{"loc": [3690,2740], "title": "Lorian's Treehouse","popup": '<p><a href = https://www.notion.so/Lorian-s-Treehouse-a3f753300f5d40fca0a093310cec8bcd?pvs=4"target="_blank">Lorians ancient home</a> in Waterdeep</p>',"icon": houseMarker},
+	{"loc": [2785,2055], "title": "Yawning Portal","popup": '<p><a href =https://www.notion.so/Yawning-Portal-33767857019041b9aa6cac6b127100aa "target="_blank">Durnans inn</a> that is one of the most popular in the city</p>',"icon": tavernMarker},
+	{"loc": [2300,2500], "title": "Zhentarim Warehouse","popup": '<p><a href =https://www.notion.so/Yawning-Portal-33767857019041b9aa6cac6b127100aa "target="_blank">Durnans inn</a> that is one of the most popular in the city</p>',"icon": tavernMarker},
+	{"loc": [2430,790], "title": "Hall of Broken Mirrors","popup": '<p> Previously the <a href="https://www.notion.so/Hall-of-light-Mirrors-b5f5a0549d964fa3ad57b9420c4a095b?pvs=4"target="_blank"> Hall of Light Mirrors</a> <br /> <a href="https://www.notion.so/Hall-of-Broken-Mirrors-de481b350be54e0aa016aca373cf8ea0?pvs=4"target="_blank"> The home temple </a> of Lumière in Castle ward.</p>',"icon":templeMarker},	
+	{"loc": [2175,2935], "title": "Rosie's home","popup": '<p><a href = https://www.notion.so/Dirk-and-Rosie-s-House-1bfb5ec3ad1845a88799f6519619c8d5?pvs=4"target="_blank">House of Rosie and Dirk</a> in Waterdeep</p>',"icon": houseMarker}
 	];
 	
 	
@@ -55,9 +70,9 @@ var customMarkerIcon = L.icon({
 		var title = data[i].title;
 		var loc = data[i].loc;
 		var popup = data[i].popup;
-		
-		var marker = new L.marker(new L.latLng(loc), {title: title,icon:customMarkerIcon}); 
-		marker.bindPopup(popup);
+		var icon = data[i].icon;
+		var marker = new L.marker(new L.latLng(loc), {title: title,icon:icon}); 
+		marker.bindPopup(title + '<br />' +popup);
 		markersLayer.addLayer(marker);
     };
 	
@@ -67,8 +82,12 @@ var customMarkerIcon = L.icon({
     marker: false,
     textPlaceholder: 'Search for a marker'
     });
-
-    myMap.addControl(searchControl);
+	myMap.addControl(searchControl);
+	searchControl.on('search:locationfound', function(e) {
+        e.layer.openPopup();
+		});
+    
+	
   </script>
 </body>
 </html>
