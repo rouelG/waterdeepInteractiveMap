@@ -29,6 +29,8 @@
       wheelPxPerZoomLevel: 80
     });
 
+    var initial_zoom /* wordt pas aan het eind van het script gebruikt */
+
     var imageBounds = [[0,0], [7256,3560]];
     var imageUrl = 'https://www.aidedd.org/atlas/images/waterdeep-3560-7256.jpg';
     var fantasyMap = L.imageOverlay(imageUrl, imageBounds);
@@ -100,7 +102,7 @@ var factionMarker = L.icon({
 		});
     
 	
-	myMap.setZoom(myMap.options.minZoom);
+	myMap.setZoom(initial_zoom);
 	myMap.on('zoomend', function() {
 		
 		var currentZoom = myMap.getZoom();
