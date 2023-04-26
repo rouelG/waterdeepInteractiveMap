@@ -87,6 +87,7 @@ var factionMarker = L.icon({
 		var icon = data[i].icon;
 		var marker = new L.marker(new L.latLng(loc), {title: title,icon:icon}); 
 		marker.bindPopup(title + '<br />' +popup);
+    /* misschien een schermpje maken dat in de linker bovenhoek blijft en dan de popup aan die locatie vastmaken */
     /*marker.on('click', function(e){
       console.log(window.screenY,window.screenX);
       var top = e.latlng['lng'] + window.screenY;
