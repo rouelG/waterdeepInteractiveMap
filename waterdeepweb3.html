@@ -87,6 +87,13 @@ var factionMarker = L.icon({
 		var icon = data[i].icon;
 		var marker = new L.marker(new L.latLng(loc), {title: title,icon:icon}); 
 		marker.bindPopup(title + '<br />' +popup);
+    /*marker.on('click', function(e){
+      console.log(window.screenY,window.screenX);
+      var top = e.latlng['lng'] + window.screenY;
+      var left = e.latlng['lat'] + window.screenX;
+      console.log(top,left);
+      e.target.getPopup().setLatLng([left,top]);
+    });*/
 		markersLayer.addLayer(marker);
     };
 	
@@ -119,6 +126,8 @@ var factionMarker = L.icon({
 			layer.setIcon(newIcon);
 		});
 	}); 
+
+  
 	
   </script>
 </body>
